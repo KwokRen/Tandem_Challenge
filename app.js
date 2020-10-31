@@ -5,13 +5,6 @@ let triviaQuestions = JSON.parse(request.responseText);
 
 let randomIndex = Math.floor(Math.random() * triviaQuestions.length)
 
-// console.log(triviaQuestions[randomIndex]);
-
-// every question will have the correct answer and the incorrect answers
-// radio buttons for each of the questions
-// if the value of the input field (radio button) is correct, then counter += 1
-// In the end, display message about score and percentage
-
 let alreadyAnswered = {}
 
 function shuffle(arr) {
@@ -28,9 +21,9 @@ let $resultsDiv = $("<div>")
 let counter = 0;
 
 let questionSelector = () =>  {
-    for (let i = 0; i < 10; i++){
+    for (let i = 0; i < 11; i++){
         console.log(i)
-        if (i !== 9) {
+        if (i !== 10) {
             let index = i
             let $questionDiv = $("<div>").addClass('question-div')
             $questionDiv.addClass(`${i}`).text(`${shuffledQuestions[i].question}`)
@@ -75,7 +68,17 @@ let questionSelector = () =>  {
                 break;
             }
         } else {
-            $resultsDiv.text(`You got ${counter} points!`)
+            let results;
+            if (counter === 1) {
+                results = `You got ${counter} point. You got ${(counter/10)*100}% right. You should try again.`
+            } else if (counter <= 5) {
+                results = `You got ${counter} points. You got ${(counter/10)*100}% right. You should try again.`
+            } else if (counter === 10) {
+                results = `You got ${counter} points. You got ${(counter/10)*100}% right. Fantastic job! You got them all correct.`
+            } else {
+                results = `You got ${counter} points. You got ${(counter/10)*100}% right. Good job!`
+            }
+            $resultsDiv.text(results)
             $(".final").append($resultsDiv)
             $(".next").removeClass('show');
             $(".try-again").addClass('show');
