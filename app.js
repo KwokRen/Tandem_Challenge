@@ -23,11 +23,13 @@ function shuffle(arr) {
 }
 
 let shuffledQuestions = shuffle(triviaQuestions)
-console.log(shuffledQuestions);
+// console.log(shuffledQuestions);
+let $resultsDiv = $("<div>")
+let counter = 0;
 
 let questionSelector = () =>  {
-    let counter = 0
     for (let i = 0; i < 10; i++){
+        console.log(i)
         if (i !== 9) {
             let index = i
             let $questionDiv = $("<div>").addClass('question-div')
@@ -47,22 +49,40 @@ let questionSelector = () =>  {
                     .append(`<input type="radio" name="${shuffledQuestions[index].question}" id="${shuffledChoices[i]}" value="${shuffledChoices[i]}">`)
                     .append(`<label for="${shuffledChoices[i]}">${shuffledChoices[i]}<label>`))
                 }
+                const checkAnswer = () => {
+                    if ($(`input[name="${shuffledQuestions[index].question}"]:checked`).val() === `${shuffledQuestions[i].correct}`) {
+                        counter += 1
+                        if (counter !== 1) {
+                            $resultsDiv.text(`You are correct! You have recieved 1 point. You now currently have ${counter} points.`)
+                            $(".results-div").append($resultsDiv)
+                        } else {
+                            $resultsDiv.text(`You are correct! You have recieved 1 point. You now currently have ${counter} point.`)
+                            $(".results-div").append($resultsDiv)
+                        }
+                    } else {
+                        if (counter !== 1) {
+                            $resultsDiv.text(`You are incorrect. The correct answer is ${shuffledQuestions[i].correct}. You have recieved 0 points. You still have ${counter} points.`)
+                            $(".results-div").append($resultsDiv)
+                        } else {
+                            $resultsDiv.text(`You are incorrect. The correct answer is ${shuffledQuestions[i].correct}. You have recieved 0 points. You still have ${counter} point.`)
+                        $(".results-div").append($resultsDiv)
+                        }
+                    }
+                }
+                $(".submit").on('click', checkAnswer);
                 $(".question-container").append($questionDiv)
                 alreadyAnswered[`${shuffledQuestions[i].question}`] = 1
                 break;
             }
         } else {
-            let $resultsDiv = $("<div>")
-            $resultsDiv.text('Finish')
-            console.log($resultsDiv)
-            $(".results-div").append($resultsDiv)
+            $resultsDiv.text(`You got ${counter} points!`)
+            $(".final").append($resultsDiv)
             $(".next").removeClass('show');
             $(".try-again").addClass('show');
+            $(".submit").removeClass('show');
         }
     }
 }
-
-
 
 $(".begin").on('click', questionSelector);
 $(".begin").on('click', () => {
@@ -70,8 +90,16 @@ $(".begin").on('click', () => {
     $(".submit").addClass('show');
     $(".begin").addClass('hidden')
 });
+$(".submit").on('click', () => {
+    $(".next").addClass('show');
+    $(".submit").removeClass('show');
+    $(".results-div").removeClass('hidden');
+})
 $(".next").on('click', () => {
     $(".question-choices").find('input').remove();
+    $(".next").removeClass('show');
+    $(".submit").addClass('show');
+    $(".results-div").addClass('hidden');
 })
 $(".next").on('click', () => {
     $(".question-choices").find('label').remove();
