@@ -12,6 +12,10 @@ h1 {
     display: none;
 }
 
+.submit {
+    display: none;
+}
+
 .show {
     display: block;
 }
