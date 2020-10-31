@@ -38,9 +38,10 @@ let questionSelector = () =>  {
                     console.log(i)
                     $(".question-choices-container")
                     $(".question-choices-container")
-                    .append($(".question-choices")
+                    .append($(".question-choices").append(
+                    $("<div>").addClass('label-input')
                     .append(`<input type="radio" name="${shuffledQuestions[index].question}" id="${shuffledChoices[i]}" value="${shuffledChoices[i]}">`)
-                    .append(`<label for="${shuffledChoices[i]}">${shuffledChoices[i]}<label>`))
+                    .append(`<label for="${shuffledChoices[i]}">${shuffledChoices[i]}<label>`)))
                 }
                 const checkAnswer = () => {
                     if ($(`input[name="${shuffledQuestions[index].question}"]:checked`).val() === `${shuffledQuestions[i].correct}`) {
@@ -105,7 +106,7 @@ $(".next").on('click', () => {
     $(".results-div").addClass('hidden');
 })
 $(".next").on('click', () => {
-    $(".question-choices").find('label').remove();
+    $(".question-choices").find('.label-input').remove();
 })
 $(".next").on('click', questionSelector);
 $(".next").on('click', () => {
