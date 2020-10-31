@@ -8,7 +8,7 @@ let counter = 0
 
 // console.log(triviaQuestions[randomIndex]);
 
-// for every question in the Array, display it on the page one by one randomly
+// for every question in the Array, display it on the page one by one randomly 
 // every question will have the correct answer and the incorrect answers
 // radio buttons for each of the questions
 // if the value of the input field (radio button) is correct, then counter += 1
@@ -28,17 +28,30 @@ function shuffle(arr) {
 let shuffledQuestions = shuffle(triviaQuestions)
 
 let questionSelector = () =>  {
-    for (let i = 0; i < shuffledQuestions.length; i++){
-        let $div = (`<div>${shuffledQuestions[i].question}</div>`)
-        if (alreadyAnswered[`${shuffledQuestions[i].question}`]) {
-            continue
+    for (let i = 0; i <= shuffledQuestions.length; i++){
+        console.log(i)
+        if (i !== 21) {
+            let $questionDiv = $("<div>")
+            $questionDiv.addClass(`${i}`).text(`${shuffledQuestions[i].question}`)
+            if (alreadyAnswered[`${shuffledQuestions[i].question}`]) {
+                continue
+            } else {
+                $(".question-container").append($questionDiv)
+                alreadyAnswered[`${shuffledQuestions[i].question}`] = 1
+                break;
+            }
         } else {
-            $(".question-container").append($div)
-            alreadyAnswered[`${shuffledQuestions[i].question}`] = 1
-            break;
+            let $resultsDiv = $("<div>")
+            $resultsDiv.text('Finish')
+            console.log($resultsDiv)
+            $(".results-div").append($resultsDiv)
+            $(".next").removeClass('show');
+            $(".try-again").addClass('show');
         }
     }
 }
+
+
 
 $(".begin").on('click', questionSelector);
 $(".begin").on('click', () => {
@@ -46,3 +59,9 @@ $(".begin").on('click', () => {
     $(".begin").addClass('hidden')
 });
 $(".next").on('click', questionSelector);
+$(".next").on('click', () => {
+    $(".question-container").find('div').first().remove();
+})
+$(".try-again").on('click', () => {
+    location.reload();
+})

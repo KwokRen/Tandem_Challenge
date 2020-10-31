@@ -8,6 +8,10 @@ h1 {
     display: none;
 }
 
+.try-again {
+    display: none;
+}
+
 .show {
     display: block;
 }
