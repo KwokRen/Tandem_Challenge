@@ -72,12 +72,18 @@ main {
 input {
     height: 1.5rem;
     width: 1.5rem;
+    cursor: pointer;
 }
 
 label, .results-div, .final {
     margin-left: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #fff4e6;
+    cursor: pointer;
+}
+
+.final {
+    font-size: 1.5rem;
 }
 
 .next, .try-again, .submit, .hidden {
